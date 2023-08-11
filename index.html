@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Price Prediction</title>
+</head>
+<body>
+    <h2>Car Price Prediction</h2>
+    <form action="/predict" method="post">
+        <label for="carlength">Car Length (cm):</label>
+        <input type="number" id="carlength" name="carlength" required><br><br>
+
+        <label for="carwidth">Car Width (cm):</label>
+        <input type="number" id="carwidth" name="carwidth" required><br><br>
+
+        <label for="carheight">Car Height (cm):</label>
+        <input type="number" id="carheight" name="carheight" required><br><br>
+
+        <label for="enginesize">Engine Size:</label>
+        <input type="number" id="enginesize" name="enginesize" required><br><br>
+
+        <label for="horsepower">Horsepower:</label>
+        <input type="number" id="horsepower" name="horsepower" required><br><br>
+
+        <label for="peakrpm">Peak RPM:</label>
+        <input type="number" id="peakrpm" name="peakrpm" required><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    <h3>Car Price Prediction Result:</h3>
+    <p><strong>Estimated Car Price:</strong> <span id="prediction">-</span></p>
+</body>
+</html>
