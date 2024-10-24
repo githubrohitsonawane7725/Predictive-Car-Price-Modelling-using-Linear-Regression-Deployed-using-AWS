@@ -1,6 +1,7 @@
 # Terraform Infrastructure for Azure AKS, ACR, and Resource Groups
-
-This repository contains Infrastructure as Code (IaC) for deploying an Azure Resource Group, Azure Container Registry (ACR), and Azure Kubernetes Service (AKS) using Terraform and Azure CLI.
+ - This repository contains Infrastructure as Code (IaC) for deploying an Azure Resource Group, Azure Container Registry (ACR), and Azure Kubernetes Service (AKS) using Terraform and Azure CLI. It provides a modular and reusable configuration to 
+   streamline the deployment of a containerized application environment on Azure. By leveraging Terraform’s capabilities, you can easily manage and scale your infrastructure as needed, ensuring that your cloud resources are efficient and cost- 
+   effective.This repository contains Infrastructure as Code (IaC) for deploying an Azure Resource Group, Azure Container Registry (ACR), and Azure Kubernetes Service (AKS) using Terraform and Azure CLI.
 
 ## Prerequisites
 Before you can deploy the infrastructure, ensure that you have the following installed and configured:
