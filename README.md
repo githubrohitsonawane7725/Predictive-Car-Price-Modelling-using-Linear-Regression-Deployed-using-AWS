@@ -2,6 +2,16 @@
 
 This repository contains Infrastructure as Code (IaC) for deploying an Azure Resource Group, Azure Container Registry (ACR), and Azure Kubernetes Service (AKS) using Terraform and Azure CLI.
 
+## Prerequisites
+Before you can deploy the infrastructure, ensure that you have the following installed and configured:
+- **Azure CLI**: To interact with Azure resources.
+- **Terraform**: For infrastructure deployment. 
+- **Azure Subscription**: You need an active Azure account with appropriate permissions.
+- 
+Tools Used
+Terraform: For infrastructure provisioning.
+Azure CLI: To manage Azure resources and configure settings.
+
 ## Directory Structure
 
 ```bash
