@@ -319,5 +319,273 @@ variable "location_acr" {
 }
 ```
 
+### Azure Kubernetes Service (AKS) Module
+
+ - This module sets up an Azure Kubernetes Service (AKS) cluster, which is a managed container orchestration service.
+
+#### `Main.tf`
+
+ - This file contains the resource definition for creating the AKS cluster.
+
+```hcl
+resource "azurerm_kubernetes_cluster" "aks" {
+  name                = var.cluster_name
+  kubernetes_version  = var.kubernetes_version
+  location            = var.location
+  resource_group_name = var.resource_group_name_acr  # Reference the same resource group
+  dns_prefix          = var.cluster_name
+
+  default_node_pool {
+    name       = var.node_pool_name 
+    node_count = var.system_node_count             # From terraform.tfvars
+    vm_size    = var.vm_size                       # From terraform.tfvars
+    type       = var.node_pool_type         # Fixed type
+    zones      = var.zones                         # From terraform.tfvars
+  }
+
+  identity {
+    type = var.identity_type
+  }
+
+  network_profile {
+    load_balancer_sku = var.load_balancer_sku      # From terraform.tfvars
+    network_plugin    = var.network_plugin         # From terraform.tfvars
+  }
+}
+```
+
+ - azurerm_kubernetes_cluster: This resource defines the AKS cluster.
+ - name: Name of the AKS cluster, sourced from the variable cluster_name.
+ - kubernetes_version: Version of Kubernetes to use, sourced from kubernetes_version.
+ - location: Azure region where the AKS cluster will be created.
+ - resource_group_name: The resource group where the AKS will be deployed.
+ - dns_prefix: DNS prefix for the AKS cluster.
+ - Default Node Pool: Specifies the configuration for the default node pool, including:
+ - name: Name of the node pool.
+ - node_count: Number of worker nodes.
+ - vm_size: Size of the virtual machines.
+ - type: Type of the node pool.
+ - zones: Availability zones for the AKS nodes.
+ - Identity: Defines the managed identity type for the AKS cluster.
+ - Network Profile: Configures the network settings for the AKS cluster.
+
+### Output.tf
+ - This file defines the outputs from the AKS module.
+```
+output "aks_id" {
+  value = azurerm_kubernetes_cluster.aks.id
+}
+
+output "aks_fqdn" {
+  value = azurerm_kubernetes_cluster.aks.fqdn
+}
+
+output "aks_node_rg" {
+  value = azurerm_kubernetes_cluster.aks.node_resource_group
+}
+
+output "kubelet_identity" {
+  value = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+}
+```
+## Outputs:
+
+ - aks_id: Outputs the ID of the created AKS cluster.
+ - aks_fqdn: Outputs the fully qualified domain name of the AKS cluster.
+ - aks_node_rg: Outputs the resource group where the AKS nodes are located.
+ - kubelet_identity: Outputs the object ID of the kubelet identity.
+   
+###Variable.tf
+ - This file declares the input variables required by the AKS module.
+```
+variable "resource_group_name_acr" {
+  description = "The name of the resource group where the ACR is deployed"
+  type        = string
+}
+
+variable "location" {
+  type        = string
+  description = "Resources location in Azure"
+}
+
+variable "cluster_name" {
+  type        = string
+  description = "AKS name in Azure"
+}
+
+variable "kubernetes_version" {
+  type        = string
+  description = "Kubernetes version"
+}
+
+variable "system_node_count" {
+  type        = number
+  description = "Number of AKS worker nodes"
+}
+
+variable "vm_size" {
+  description = "VM size for the AKS default node pool"
+  type        = string
+  default     = "Standard_DS2_v2"  # Optional default value
+}
+
+variable "zones" {
+  description = "Availability zones for AKS nodes"
+  type        = list(string)
+  default     = [1, 2, 3]  # Optional default value for zones
+}
+
+variable "load_balancer_sku" {
+  description = "SKU of the Load Balancer for AKS"
+  type        = string
+  default     = "standard"  # Optional default value
+}
+
+variable "network_plugin" {
+  description = "Network plugin for AKS"
+  type        = string
+  default     = "kubenet"  # Optional default value
+}
+
+variable "identity_type" {
+  description = "The type of managed identity (e.g., SystemAssigned, UserAssigned)"
+  type        = string
+  default     = "SystemAssigned"  # Default value is set to "SystemAssigned"
+}
+
+variable "node_pool_type" {
+  description = "The type of the node pool (e.g., VirtualMachineScaleSets or AvailabilitySet)"
+  type        = string
+  default     = "VirtualMachineScaleSets"  # Default value is set to "VirtualMachineScaleSets"
+}
+
+variable "node_pool_name" {
+  description = "Name of the default node pool"
+  type        = string
+  default     = "system"  # Optional: Set a default value to 'system', if that is commonly used
+}
+```
+### Variables
+ - resource_group_name_acr: The name of the resource group where the ACR is deployed.
+ - location: The Azure region for resource deployment.
+ - cluster_name: The name of the AKS cluster.
+ - kubernetes_version: The version of Kubernetes to deploy.
+ - system_node_count: The number of worker nodes in the AKS cluster.
+ - vm_size: The size of the virtual machines in the node pool.
+ - zones: Availability zones for the AKS nodes.
+ - load_balancer_sku: SKU for the load balancer.
+ - network_plugin: Network plugin configuration.
+ - identity_type: Type of managed identity for the AKS.
+ - node_pool_type: Type of the node pool (VirtualMachineScaleSets or AvailabilitySet).
+ - node_pool_name: Name of the default node pool.
 
 
+
+### Azure Container Registry (ACR) Module
+
+This module sets up an Azure Container Registry (ACR), which is a private Docker registry used to store and manage container images.
+
+#### `Main.tf`
+
+ - This file contains the resource definitions for creating the ACR and assigning roles.
+
+```hcl
+resource "azurerm_container_registry" "acr" { 
+  name                = var.acr_name
+  resource_group_name = var.resource_group_name_acr  # Use the variable for the resource group
+  location            = var.location_acr
+  sku                 = var.acr_sku                # Use variable for SKU
+  admin_enabled       = var.acr_admin_enabled       # Use variable for admin access
+}
+
+resource "azurerm_role_assignment" "role_acrpull" {
+  scope                            = azurerm_container_registry.acr.id
+  role_definition_name             = var.role_definition_name             # Use variable for role definition
+  principal_id                     = var.principal_id  # Use the variable for principal_id
+  skip_service_principal_aad_check = var.skip_service_principal_aad_check # Use variable for skipping AAD check
+}
+```
+ - azurerm_container_registry: This resource defines the Azure Container Registry.
+ - name: The name of the ACR, sourced from the variable acr_name.
+ - resource_group_name: The resource group where the ACR will be deployed.
+ - location: Azure region for the ACR deployment.
+ - sku: The SKU (pricing tier) for the ACR, sourced from acr_sku.
+ - admin_enabled: Whether admin access is enabled for the ACR.
+ - azurerm_role_assignment: This resource assigns a role to a principal to access the ACR.
+
+ - scope: The scope of the role assignment, referencing the ACR ID.
+ - role_definition_name: The name of the role definition, sourced from role_definition_name.
+ - principal_id: The object ID of the principal (e.g., AKS kubelet identity) that will have the role assigned.
+ - skip_service_principal_aad_check: Indicates whether to skip the AAD check for the service principal.
+
+###Output.tf
+ - This file defines the outputs from the ACR module.
+```
+output "acr_id" {
+  value = azurerm_container_registry.acr.id
+}
+
+output "acr_login_server" {
+  value = azurerm_container_registry.acr.login_server
+}
+```
+Outputs:
+ - acr_id: Outputs the ID of the created ACR.
+ - acr_login_server: Outputs the login server URL for the ACR.
+
+###Variable.tf
+ - This file declares the input variables required by the ACR module.
+```
+variable "acr_name" {
+  type        = string
+  description = "ACR name"
+}
+
+variable "location_acr" {
+  type        = string
+  description = "ACR location"
+}
+
+variable "resource_group_name_acr" {
+  type        = string
+  description = "Resource group name for ACR"
+}
+
+variable "acr_sku" {
+  description = "SKU for the Azure Container Registry"
+  type        = string
+  default     = "Standard"  # Default value for ACR SKU
+}
+
+variable "acr_admin_enabled" {
+  description = "Enable or disable admin access for the ACR"
+  type        = bool
+  default     = false  # Default value for admin access
+}
+
+variable "role_definition_name" {
+  description = "The name of the role definition for the role assignment"
+  type        = string
+  default     = "AcrPull"  # Default value for role definition name
+}
+
+variable "skip_service_principal_aad_check" {
+  description = "Whether to skip the service principal AAD check"
+  type        = bool
+  default     = true  # Default value for skipping the AAD check
+}
+
+variable "principal_id" {
+  type        = string
+  description = "The object ID of the AKS kubelet identity"
+}
+```
+### Variables
+ - acr_name: The name of the Azure Container Registry.
+ - location_acr: The Azure region for the ACR deployment.
+ - resource_group_name_acr: The name of the resource group where the ACR will be deployed.
+ - acr_sku: The SKU for the ACR.
+ - acr_admin_enabled: Indicates if admin access is enabled for the ACR.
+ - role_definition_name: The name of the role for the assignment.
+ - skip_service_principal_aad_check: Indicates whether to skip the AAD check for service principal.
+ - principal_id: The object ID of the AKS kubelet identity.
