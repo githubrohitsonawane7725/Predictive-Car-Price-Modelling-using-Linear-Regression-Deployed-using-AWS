@@ -17,11 +17,12 @@ Before you can deploy the infrastructure, ensure that you have the following ins
 - **Terraform**: For infrastructure deployment. 
 - **Azure Subscription**: You need an active Azure account with appropriate permissions.
  
-Tools Used
+### Tools Used
 
-Terraform: For infrastructure provisioning.
-
-Azure CLI: To manage Azure resources and configure settings.
+ - Terraform: For infrastructure provisioning.
+ - Git: For version control of your infrastructure code.
+ - Visual Studio Code: An integrated development environment (IDE) commonly used for editing Terraform files.
+ - Azure CLI: To manage Azure resources and configure settings.
 
 ## Directory Structure
 
