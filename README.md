@@ -39,6 +39,7 @@ IAC-using-terraform/
         ├── output.tf
         ├── variables.tf
 
+```
 
 ## Infrastructure Details
 
@@ -56,4 +57,9 @@ IAC-using-terraform/
 - A private Docker registry used to store and manage container images.
 - The ACR configuration is located under `resources/acr/`. Once deployed, you can push your container images to ACR for use in your AKS cluster.
 
+main.tf
+Defines the resource modules for the infrastructure:
+Resource Group: The resource_group module, sourced from resources/resource_group, creates a common resource group for AKS and ACR.
+AKS Cluster: The aks module, sourced from resources/aks, sets up the Azure Kubernetes Service cluster with key parameters like kubernetes_version, vm_size, and network_plugin. The AKS creation depends on the resource group.
+ACR: The acr module, sourced from resources/acr, deploys the Azure Container Registry. It depends on both the AKS and the resource group.
 
