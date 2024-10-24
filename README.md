@@ -161,3 +161,112 @@ acr_admin_enabled = false
 role_definition_name = "AcrPull"
 skip_service_principal_aad_check = true
 ```
+## Variables.tf
+ - Declares variables used throughout the modules. This includes configuration options for AKS, ACR, and the resource group.
+```
+variable "resource_group_name_acr" {
+  description = "The name of the resource group"
+  type = string
+}
+
+variable "location" {
+  description = "Resources location in Azure"
+  type = string
+}
+
+variable "location_acr" {
+  description = "ACR location"
+  type = string
+}
+
+variable "subscription_id" {
+  description = "The subscription ID used for Azure."
+  type = string
+}
+
+variable "cluster_name" {
+  type = string
+  description = "AKS name in Azure"
+}
+
+variable "kubernetes_version" {
+  type = string
+  description = "Kubernetes version"
+}
+
+variable "system_node_count" {
+  type = number
+  description = "Number of AKS worker nodes"
+}
+
+variable "vm_size" {
+  description = "VM size for the AKS default node pool"
+  type = string
+  default = "Standard_DS2_v2"
+}
+
+variable "zones" {
+  description = "Availability zones for AKS nodes"
+  type = list(string)
+  default = [1, 2, 3]
+}
+
+variable "load_balancer_sku" {
+  description = "SKU of the Load Balancer for AKS"
+  type = string
+  default = "standard"
+}
+
+variable "network_plugin" {
+  description = "Network plugin for AKS"
+  type = string
+  default = "kubenet"
+}
+
+variable "acr_name" {
+  type = string
+  description = "ACR name"
+}
+
+variable "acr_sku" {
+  description = "SKU for the Azure Container Registry"
+  type = string
+  default = "Standard"
+}
+
+variable "acr_admin_enabled" {
+  description = "Enable or disable admin access for the ACR"
+  type = bool
+  default = false
+}
+
+variable "role_definition_name" {
+  description = "The name of the role definition for the role assignment"
+  type = string
+  default = "AcrPull"
+}
+
+variable "skip_service_principal_aad_check" {
+  description = "Whether to skip the service principal AAD check"
+  type = bool
+  default = true
+}
+
+variable "node_pool_type" {
+  description = "The type of the node pool (e.g., VirtualMachineScaleSets or AvailabilitySet)"
+  type = string
+  default = "VirtualMachineScaleSets"
+}
+
+variable "identity_type" {
+  description = "The type of managed identity (e.g., SystemAssigned, UserAssigned)"
+  type = string
+  default = "SystemAssigned"
+}
+
+variable "node_pool_name" {
+  description = "Name of the default node pool"
+  type = string
+  default = "system"
+}
+```
