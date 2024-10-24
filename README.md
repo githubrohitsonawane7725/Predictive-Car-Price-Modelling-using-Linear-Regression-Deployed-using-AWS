@@ -17,6 +17,7 @@ Azure CLI: To manage Azure resources and configure settings.
 ## Directory Structure
 
 
+```bash
 IAC-using-terraform/
 ├── modules/
 │   ├── main.tf
@@ -37,4 +38,3 @@ IAC-using-terraform/
         ├── main.tf
         ├── output.tf
         ├── variables.tf
-
