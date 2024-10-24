@@ -610,5 +610,4 @@ terraform plan
 ```hcl 
 terraform apply
 ```
-
-- Access Your Resources: After the deployment is complete, you can access your Azure resources using the Azure Portal or Azure CLI.
+### Access Your Resources: After the deployment is complete, you can access your Azure resources using the Azure Portal or Azure CLI.
