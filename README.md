@@ -42,7 +42,9 @@ IAC-using-terraform/
 
 ## Infrastructure Details
 
-The infrastructure deployed using this repository includes the following Azure resources:
+### Azure Resource Group
+- All resources are grouped within a single resource group for better organization and management.
+- The resource group configuration is located under `resources/resource_group/`.
 
 ### Azure Kubernetes Service (AKS)
 
@@ -54,7 +56,4 @@ The infrastructure deployed using this repository includes the following Azure r
 - A private Docker registry used to store and manage container images.
 - The ACR configuration is located under `resources/acr/`. Once deployed, you can push your container images to ACR for use in your AKS cluster.
 
-### Azure Resource Group
 
-- All resources are grouped within a single resource group for better organization and management.
-- The resource group configuration is located under `resources/resource_group/`.
