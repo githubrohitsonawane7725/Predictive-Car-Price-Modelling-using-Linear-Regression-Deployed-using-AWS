@@ -7,9 +7,10 @@ Before you can deploy the infrastructure, ensure that you have the following ins
 - **Azure CLI**: To interact with Azure resources.
 - **Terraform**: For infrastructure deployment. 
 - **Azure Subscription**: You need an active Azure account with appropriate permissions.
-- 
+ 
 Tools Used
 Terraform: For infrastructure provisioning.
+
 Azure CLI: To manage Azure resources and configure settings.
 
 ## Directory Structure
