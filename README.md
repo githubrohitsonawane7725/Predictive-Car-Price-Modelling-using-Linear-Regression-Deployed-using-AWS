@@ -395,7 +395,7 @@ output "kubelet_identity" {
  - aks_node_rg: Outputs the resource group where the AKS nodes are located.
  - kubelet_identity: Outputs the object ID of the kubelet identity.
    
-###Variable.tf
+### Variable.tf
  - This file declares the input variables required by the AKS module.
 ```
 variable "resource_group_name_acr" {
@@ -518,7 +518,7 @@ resource "azurerm_role_assignment" "role_acrpull" {
  - principal_id: The object ID of the principal (e.g., AKS kubelet identity) that will have the role assigned.
  - skip_service_principal_aad_check: Indicates whether to skip the AAD check for the service principal.
 
-###Output.tf
+### Output.tf
  - This file defines the outputs from the ACR module.
 ```
 output "acr_id" {
