@@ -270,3 +270,54 @@ variable "node_pool_name" {
   default = "system"
 }
 ```
+### Resource Group Module
+
+This module creates an Azure Resource Group, which serves as a container for the other resources deployed (AKS and ACR).
+
+#### `main.tf`
+
+This file contains the resource definition for creating the Azure Resource Group.
+
+```
+resource "azurerm_resource_group" "common_rg" {
+  name     = var.resource_group_name_acr
+  location = var.location_acr
+}
+```
+ - azurerm_resource_group: This resource creates a new Azure Resource Group.
+ - name: The name of the resource group, sourced from the input variable resource_group_name_acr.
+ - location: The Azure region where the resource group will be created, sourced from location_acr.
+
+### Output.tf
+ - This file defines the outputs from the Resource Group module.
+```
+   output "common_rg_name" {
+  value       = azurerm_resource_group.common_rg.name
+  description = "The name of the Azure resource group."
+}
+
+output "common_rg_id" {
+  value       = azurerm_resource_group.common_rg.id
+  description = "The ID of the Azure resource group."
+}
+```
+### Outputs:
+  - common_rg_name: Outputs the name of the created resource group.
+  - common_rg_id: Outputs the ID of the created resource group, which can be used for referencing this resource in other configurations.
+
+### Variable.tf
+  - This file declares the input variables required by the Resource Group module.
+```
+variable "resource_group_name_acr" {
+  description = "The name of the resource group"
+  type        = string
+}
+
+variable "location_acr" {
+  description = "The location of the resource group"
+  type        = string
+}
+```
+
+
+
