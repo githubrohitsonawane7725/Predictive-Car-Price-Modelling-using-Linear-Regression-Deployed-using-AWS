@@ -109,7 +109,7 @@ module "acr" {
 }
 ```
 ### Output.tf
-This file defines the outputs from the deployed modules, including the resource group name and ID, ACR details, and AKS configurations (e.g., FQDN, node resource group).
+The output.tf file plays a crucial role in defining the outputs of the deployed modules, providing essential information for users to interact with and manage the deployed resources effectively. It encapsulates key outputs, including the resource group name and ID, Azure Container Registry (ACR) details, and Azure Kubernetes Service (AKS) configurations, such as the fully qualified domain name (FQDN) and the resource group for AKS nodes.
 
 ```hcl
 output "resource_group_name" {
@@ -151,7 +151,8 @@ provider "azurerm" {
 ```
 
 ### Terraform.tfvars
- - Contains variable values that will be passed into the modules. It defines critical details like resource names, cluster configuration, and ACR setup.
+ - The terraform.tfvars file is essential for managing variable values that are passed into the Terraform modules. It centralizes critical configuration details that drive the deployment, including resource names, cluster settings, and Azure 
+   Container Registry (ACR) configurations. By defining these parameters in one place, you ensure that the deployment remains flexible and easily configurable.
 ```hcl
 resource_group_name_acr = "my-common-resource-group"
 location = "Central India"
