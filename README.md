@@ -533,7 +533,7 @@ Outputs:
  - acr_id: Outputs the ID of the created ACR.
  - acr_login_server: Outputs the login server URL for the ACR.
 
-###Variable.tf
+### Variable.tf
  - This file declares the input variables required by the ACR module.
 ```hcl
 variable "acr_name" {
