@@ -65,7 +65,7 @@ Defines the resource modules for the infrastructure:
 - AKS Cluster: The aks module, sourced from resources/aks, sets up the Azure Kubernetes Service cluster with key parameters like kubernetes_version, vm_size, and network_plugin. The AKS creation depends on the resource group.
 - ACR: The acr module, sourced from resources/acr, deploys the Azure Container Registry. It depends on both the AKS and the resource group.
 
-```bash
+```hcl
 module "resource_group" {
   source = "../resources/resource_group"
   resource_group_name_acr = var.resource_group_name_acr
@@ -101,7 +101,7 @@ module "acr" {
 ### Output.tf
 This file defines the outputs from the deployed modules, including the resource group name and ID, ACR details, and AKS configurations (e.g., FQDN, node resource group).
 
-```bash
+```hcl
 output "resource_group_name" {
   value = module.resource_group.common_rg_name
 }
@@ -133,7 +133,7 @@ output "aks_node_rg" {
 
 ### Provider.tf
 Specifies the provider configuration for Azure. Ensure to update the subscription_id with your Azure subscription.
-```bash
+```hcl
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
@@ -142,7 +142,7 @@ provider "azurerm" {
 
 ### Terraform.tfvars
  - Contains variable values that will be passed into the modules. It defines critical details like resource names, cluster configuration, and ACR setup.
-```
+```hcl
 resource_group_name_acr = "my-common-resource-group"
 location = "Central India"
 cluster_name = "AKSClusterdev"
@@ -163,7 +163,7 @@ skip_service_principal_aad_check = true
 ```
 ## Variables.tf
  - Declares variables used throughout the modules. This includes configuration options for AKS, ACR, and the resource group.
-```
+```hcl
 variable "resource_group_name_acr" {
   description = "The name of the resource group"
   type = string
@@ -278,7 +278,7 @@ This module creates an Azure Resource Group, which serves as a container for the
 
 This file contains the resource definition for creating the Azure Resource Group.
 
-```
+```hcl
 resource "azurerm_resource_group" "common_rg" {
   name     = var.resource_group_name_acr
   location = var.location_acr
@@ -290,7 +290,7 @@ resource "azurerm_resource_group" "common_rg" {
 
 ### Output.tf
  - This file defines the outputs from the Resource Group module.
-```
+```hcl
    output "common_rg_name" {
   value       = azurerm_resource_group.common_rg.name
   description = "The name of the Azure resource group."
@@ -307,7 +307,7 @@ output "common_rg_id" {
 
 ### Variable.tf
   - This file declares the input variables required by the Resource Group module.
-```
+```hcl
 variable "resource_group_name_acr" {
   description = "The name of the resource group"
   type        = string
@@ -371,7 +371,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
 ### Output.tf
  - This file defines the outputs from the AKS module.
-```
+```hcl
 output "aks_id" {
   value = azurerm_kubernetes_cluster.aks.id
 }
@@ -397,7 +397,7 @@ output "kubelet_identity" {
    
 ### Variable.tf
  - This file declares the input variables required by the AKS module.
-```
+```hcl
 variable "resource_group_name_acr" {
   description = "The name of the resource group where the ACR is deployed"
   type        = string
@@ -520,7 +520,7 @@ resource "azurerm_role_assignment" "role_acrpull" {
 
 ### Output.tf
  - This file defines the outputs from the ACR module.
-```
+```hcl
 output "acr_id" {
   value = azurerm_container_registry.acr.id
 }
@@ -535,7 +535,7 @@ Outputs:
 
 ###Variable.tf
  - This file declares the input variables required by the ACR module.
-```
+```hcl
 variable "acr_name" {
   type        = string
   description = "ACR name"
