@@ -623,7 +623,3 @@ terraform apply
 ```
 ### Access Your Resources: After the deployment is complete, you can access your Azure resources using the Azure Portal or Azure CLI.
 
-### Conclusion
- - This private repository encapsulates a robust Infrastructure as Code (IaC) solution for deploying essential Azure resources, including Azure Kubernetes Service (AKS) and Azure Container Registry (ACR). Leveraging Terraform for automation and 
-   Azure CLI for resource management, this project streamlines the deployment process, enhances operational efficiency, and promotes best practices in cloud infrastructure management. By adhering to the provided guidelines, users can easily set 
-   up, manage, and scale their cloud environments, ensuring seamless integration and optimized resource utilization.
