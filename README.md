@@ -590,36 +590,3 @@ variable "principal_id" {
   type        = string
   description = "The object ID of the AKS kubelet identity"
 }
-```
-### Variables
- - acr_name: The name of the Azure Container Registry.
- - location_acr: The Azure region for the ACR deployment.
- - resource_group_name_acr: The name of the resource group where the ACR will be deployed.
- - acr_sku: The SKU for the ACR.
- - acr_admin_enabled: Indicates if admin access is enabled for the ACR.
- - role_definition_name: The name of the role for the assignment.
- - skip_service_principal_aad_check: Indicates whether to skip the AAD check for service principal.
- - principal_id: The object ID of the AKS kubelet identity.
-
-
-### To deploy the infrastructure using Terraform, follow these steps:
- - Authenticate with Azure: Ensure that you are authenticated with your Azure account using Azure CLI.
-```hcl
-   az login
-```
-### Initialize Terraform: Initialize your Terraform workspace. This command downloads the necessary provider plugins.
-```hcl
-   terraform init
-```
-### Review the Terraform Plan: Generate an execution plan to see what resources will be created or modified. Review this plan carefully.
-
-```hcl
-terraform plan
-```
-### Apply the Terraform Configuration: Apply the configuration to deploy the infrastructure. This command will prompt you to confirm the actions. Type yes to proceed.
-
-```hcl 
-terraform apply
-```
-### Access Your Resources: After the deployment is complete, you can access your Azure resources using the Azure Portal or Azure CLI.
-
